@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import SearchBar from "./features/search-bar/SearchBar";
 import ActorDetails from "./features/actor-details/ActorDetails";
+import ReviewsChart from "./features/chart/ReviewsChart";
+import NoResponseData from "./shared/components/NoResponseData";
 import tmdbApi from "./api/movieDbApi";
 import "./app.scss";
 
@@ -11,27 +13,32 @@ const EVENT = {
   cleared: "clear",
 };
 
-const fetchActors = (query) => {
-  return tmdbApi
-    .get(
+const fetchActors = async (query) => {
+  try {
+    const result = await tmdbApi.get(
       `/search/person?api_key=${ENV_API_KEY}&query=${encodeURIComponent(
         query
       )}&page=1`
-    )
-    .then((result) => result.data)
-    .catch((err) => console.log(err.message));
+    );
+    return result.data;
+  } catch (err) {
+    return console.log(err.message);
+  }
 };
 
 function App() {
   const [options, setOptions] = useState([]);
   const [knownFor, setKnownFor] = useState([]);
   const [actorId, setActorId] = useState("");
+  const [initialState, setInitialState] = useState(true);
 
   function handleLoad(selectedOption, action) {
     if (action === EVENT.selected) {
       setKnownFor(selectedOption.knownFor.map((movie) => movie.original_title));
       setActorId(selectedOption.value);
+      setInitialState(false);
     }
+    if (action === EVENT.cleared) setInitialState(true);
   }
 
   function handleInputChange(query) {
@@ -51,6 +58,26 @@ function App() {
     } else setOptions([]);
   }
 
+  function detailsComponent() {
+    const content =
+      "Unfortunately, there is no information about the requested choice, try another choice.";
+    return knownFor.length ? (
+      <ActorDetails actorId={String(actorId)} knownFor={knownFor} />
+    ) : (
+      knownFor != null && <NoResponseData content={content} />
+    );
+  }
+
+  function chartComponent() {
+    const content =
+      "Unfortunately, there is no information in the database about movies related to the selected choice, try another choice.";
+    return actorId ? (
+      <ReviewsChart actorId={actorId} />
+    ) : (
+      !!knownFor.length && <NoResponseData content={content} />
+    );
+  }
+
   return (
     <div className="app">
       <SearchBar
@@ -58,9 +85,8 @@ function App() {
         loadOptions={handleLoad}
         handleInputChange={handleInputChange}
       />
-      {!!knownFor.length && (
-        <ActorDetails actorId={String(actorId)} knownFor={knownFor} />
-      )}
+      {!initialState && detailsComponent()}
+      {!initialState && chartComponent()}
     </div>
   );
 }

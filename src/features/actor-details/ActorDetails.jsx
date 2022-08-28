@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash.isempty";
 import tmdbApi from "../../api/movieDbApi";
-import noImageFound from "../../image-not-found.svg";
+import noImageFound from "../../shared/image-not-found.svg";
 import "./style/actor.scss";
 
 const BASE_SRC = "https://image.tmdb.org/t/p/w300";
@@ -15,32 +15,21 @@ const dateOptions = {
   day: "numeric",
 };
 
-// const fetchActorCasts = (actorId) => {
-//   return tmdbApi
-//     .get(
-//       `/person/${actorId}/movie_credits?api_key=${ENV_API_KEY}&language=en-US`
-//     )
-//     .then((response) => response.data)
-//     .catch((err) => console.log(err.message));
-// };
-
-const fetchActorDetails = (actorId) => {
-  return tmdbApi
-    .get(`/person/${actorId}?api_key=${ENV_API_KEY}&language=en-US`)
-    .then((response) => response.data)
-    .catch((err) => console.log(err.message));
+const fetchActorDetails = async (actorId) => {
+  try {
+    const response = await tmdbApi.get(
+      `/person/${actorId}?api_key=${ENV_API_KEY}&language=en-US`
+    );
+    return response.data;
+  } catch (err) {
+    return console.log(err.message);
+  }
 };
 
 function ActorDetails({ actorId, knownFor }) {
-  // const [actorCasts, setActorCasts] = useState([]);
   const [actorDetails, setActorDetails] = useState({});
 
   useEffect(() => {
-    // fetchActorCasts(actorId)
-    //   .then((response) =>
-    //     setActorCasts([...response.cast.map((cast) => cast.title)])
-    //   )
-    //   .catch((err) => console.log(err));
     fetchActorDetails(actorId).then((response) =>
       setActorDetails({
         name: response.name || "Unknown",
@@ -84,12 +73,18 @@ function ActorDetails({ actorId, knownFor }) {
           <div className="details-row">
             Known for:
             <ul className="details-list">
-              {!!knownFor.length &&
+              {knownFor.length ? (
                 knownFor.map((movie) => (
-                  <li className="details-list-element" key={movie}>
+                  <li
+                    className="details-list-element"
+                    key={movie + Math.random()}
+                  >
                     {movie}
                   </li>
-                ))}
+                ))
+              ) : (
+                <div>There is no record of this data</div>
+              )}
             </ul>
           </div>
         </div>
