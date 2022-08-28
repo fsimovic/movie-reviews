@@ -1,0 +1,71 @@
+@import "../../../mixin.scss";
+
+.details-container {
+  background-color: $fg-white;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2em;
+  margin: auto;
+  max-width: 600px;
+  margin-top: 50px;
+  align-items: center;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px $fg-shadow;
+
+  @include tablet {
+    flex-direction: row;
+    column-gap: 4em;
+    align-items: flex-start;
+    max-height: 300px;
+  }
+
+  @include desktop {
+    flex-direction: row;
+    column-gap: 4em;
+    align-items: flex-start;
+    max-height: 300px;
+  }
+}
+
+.image-wrap {
+  text-align: center;
+
+  @include tablet {
+    text-align: left;
+  }
+  @include desktop {
+    text-align: left;
+  }
+}
+
+.actor-image {
+  border-radius: 14px;
+  max-height: 200px;
+
+  @include tablet {
+    border-radius: 14px 0 0 14px;
+    max-height: 300px;
+  }
+  @include desktop {
+    border-radius: 14px 0 0 14px;
+    max-height: 300px;
+  }
+}
+
+.details-text {
+  padding: 10px;
+}
+
+.details-row {
+  margin: 10px 0;
+}
+
+.details-list {
+  overflow-y: auto;
+  max-height: 180px;
+}
+
+.details-list-element {
+  list-style: none;
+  margin: 3px 0;
+}

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import SearchBar from "./features/search-bar/SearchBar";
+import ActorDetails from "./features/actor-details/ActorDetails";
 import tmdbApi from "./api/movieDbApi";
-import "./app.scss";
+import "./app.css";
 
 const ENV_API_KEY = "0b91ae7b96315dc0da25c9f9cfb5ba39";
 
@@ -23,8 +24,15 @@ const fetchActors = (query) => {
 
 function App() {
   const [options, setOptions] = useState([]);
+  const [knownFor, setKnownFor] = useState([]);
+  const [actorId, setActorId] = useState("");
 
-  function handleLoad(query, action) {}
+  function handleLoad(selectedOption, action) {
+    if (action === EVENT.selected) {
+      setKnownFor(selectedOption.knownFor.map((movie) => movie.original_title));
+      setActorId(selectedOption.value);
+    }
+  }
 
   function handleInputChange(query) {
     if (query) {
@@ -34,11 +42,12 @@ function App() {
             return {
               value: String(actor.id),
               label: actor.name,
+              knownFor: actor.known_for,
             };
           });
           setOptions([...actorsAsOptions]);
         })
-        .catch((err) => setOptions([]));
+        .catch(() => setOptions([]));
     } else setOptions([]);
   }
 
@@ -49,6 +58,9 @@ function App() {
         loadOptions={handleLoad}
         handleInputChange={handleInputChange}
       />
+      {!!knownFor.length && (
+        <ActorDetails actorId={String(actorId)} knownFor={knownFor} />
+      )}
     </div>
   );
 }

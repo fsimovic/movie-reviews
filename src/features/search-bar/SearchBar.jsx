@@ -18,9 +18,10 @@ function SearchBar({ options, loadOptions, handleInputChange }) {
 
 SearchBar.propTypes = {
   options: PropTypes.arrayOf(
-    PropTypes.exact({
+    PropTypes.shape({
       value: PropTypes.string,
       label: PropTypes.string,
+      data: PropTypes.object,
     })
   ),
   loadOptions: PropTypes.func,
