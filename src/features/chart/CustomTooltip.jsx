@@ -7,11 +7,15 @@ import "./styles/custom-tooltip.scss";
 const BASE_SRC = "https://image.tmdb.org/t/p/w300";
 const ENV_API_KEY = "0b91ae7b96315dc0da25c9f9cfb5ba39";
 
-const fetchMovieDetails = (movieId) => {
-  return tmdbApi
-    .get(`/movie/${movieId}?api_key=${ENV_API_KEY}&language=en-US`)
-    .then((response) => response.data)
-    .catch((err) => console.log(err.message));
+const fetchMovieDetails = async (movieId) => {
+  try {
+    const response = await tmdbApi.get(
+      `/movie/${movieId}?api_key=${ENV_API_KEY}&language=en-US`
+    );
+    return response.data;
+  } catch (err) {
+    return console.log(err.message);
+  }
 };
 
 function CustomTooltip({ payload, active }) {
