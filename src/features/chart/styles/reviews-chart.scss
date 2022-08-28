@@ -1,0 +1,12 @@
+@import "../../../mixin.scss";
+
+.chart-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 50px auto 0;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px $fg-shadow;
+  overflow-y: hidden;
+  overflow-x: auto;
+  text-align: -webkit-center;
+}

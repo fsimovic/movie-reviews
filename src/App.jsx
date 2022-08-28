@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "./features/search-bar/SearchBar";
 import ActorDetails from "./features/actor-details/ActorDetails";
 import tmdbApi from "./api/movieDbApi";
-import "./app.css";
+import "./app.scss";
 
 const ENV_API_KEY = "0b91ae7b96315dc0da25c9f9cfb5ba39";
 

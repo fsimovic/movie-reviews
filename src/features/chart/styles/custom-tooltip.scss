@@ -1,0 +1,25 @@
+@import "../../../mixin.scss";
+
+.custom-tooltip {
+  max-width: 150px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px $fg-shadow;
+  background-color: $fg-white;
+}
+
+.tooltip-text {
+  padding: 10px;
+}
+
+.tooltip-image-wraper {
+  height: 225px;
+}
+
+.tooltip-image {
+  width: 100%;
+  border-radius: 14px 14px 0 0;
+}
+
+.tooltip-title {
+  font-weight: bold;
+}
