@@ -4,6 +4,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Live demo
+
+App is deployed on Netlify serverless platform and an overview is available at this [link](https://630c86fae7697705302c16ee--fastidious-dusk-465510.netlify.app/).
+
 ## Environment
 
   - Node.js v16.17.0
