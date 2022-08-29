@@ -13,12 +13,10 @@ import {
 } from "recharts";
 import "./styles/reviews-chart.scss";
 
-const ENV_API_KEY = "0b91ae7b96315dc0da25c9f9cfb5ba39";
-
 const fetchActorCasts = async (actorId) => {
   try {
     const response = await tmdbApi.get(
-      `/person/${actorId}/movie_credits?api_key=${ENV_API_KEY}&language=en-US`
+      `/person/${actorId}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
     return response.data;
   } catch (err) {

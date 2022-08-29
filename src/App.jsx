@@ -6,8 +6,6 @@ import NoResponseData from "./shared/components/NoResponseData";
 import tmdbApi from "./api/movieDbApi";
 import "./app.scss";
 
-const ENV_API_KEY = "0b91ae7b96315dc0da25c9f9cfb5ba39";
-
 const EVENT = {
   selected: "select-option",
   cleared: "clear",
@@ -16,9 +14,9 @@ const EVENT = {
 const fetchActors = async (query) => {
   try {
     const result = await tmdbApi.get(
-      `/search/person?api_key=${ENV_API_KEY}&query=${encodeURIComponent(
-        query
-      )}&page=1`
+      `/search/person?api_key=${
+        process.env.REACT_APP_API_KEY
+      }&query=${encodeURIComponent(query)}&page=1`
     );
     return result.data;
   } catch (err) {

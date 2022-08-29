@@ -4,13 +4,10 @@ import tmdbApi from "../../api/movieDbApi";
 import isEmpty from "lodash.isempty";
 import "./styles/custom-tooltip.scss";
 
-const BASE_SRC = "https://image.tmdb.org/t/p/w300";
-const ENV_API_KEY = "0b91ae7b96315dc0da25c9f9cfb5ba39";
-
 const fetchMovieDetails = async (movieId) => {
   try {
     const response = await tmdbApi.get(
-      `/movie/${movieId}?api_key=${ENV_API_KEY}&language=en-US`
+      `/movie/${movieId}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
     return response.data;
   } catch (err) {
@@ -40,7 +37,9 @@ function CustomTooltip({ payload, active }) {
         <div className="tooltip-image-wraper">
           <img
             className="tooltip-image"
-            src={`${BASE_SRC + movieDetails.posterPath}`}
+            src={`${
+              process.env.REACT_APP_BASE_IMAGE_SCR + movieDetails.posterPath
+            }`}
           />
         </div>
       ) : (

@@ -5,9 +5,6 @@ import tmdbApi from "../../api/movieDbApi";
 import noImageFound from "../../shared/image-not-found.svg";
 import "./style/actor.scss";
 
-const BASE_SRC = "https://image.tmdb.org/t/p/w300";
-const ENV_API_KEY = "0b91ae7b96315dc0da25c9f9cfb5ba39";
-
 const dateOptions = {
   weekday: "long",
   year: "numeric",
@@ -18,7 +15,7 @@ const dateOptions = {
 const fetchActorDetails = async (actorId) => {
   try {
     const response = await tmdbApi.get(
-      `/person/${actorId}?api_key=${ENV_API_KEY}&language=en-US`
+      `/person/${actorId}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
     return response.data;
   } catch (err) {
@@ -50,7 +47,7 @@ function ActorDetails({ actorId, knownFor }) {
           className="actor-image"
           src={`${
             actorDetails?.profilePath
-              ? BASE_SRC + actorDetails.profilePath
+              ? process.env.REACT_APP_BASE_IMAGE_SCR + actorDetails.profilePath
               : noImageFound
           }`}
           alt={actorDetails?.name}
